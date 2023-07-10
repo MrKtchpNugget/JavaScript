@@ -1,0 +1,16 @@
+const price = 2.50;
+const campers = 15;
+console.log("The price per unit is: " + price);
+console.log("There is " + campers + " campers");
+const taxRate = .08;
+console.log("The tax-rate has a value of: " + taxRate);
+console.log("\n")
+const budget = 40;
+const total = campers * price * 1.08;
+console.log("The total will be: " + total);
+console.log("\n")
+console.log("==============Additional Info================")
+const totalExceedsBudget = total > budget;
+console.log("Total Exceeds Budget? " + totalExceedsBudget);
+const taxApplied = total > (price * campers);
+console.log("Tax Applied? " + taxApplied);
