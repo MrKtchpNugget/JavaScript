@@ -1,0 +1,100 @@
+import math
+
+# I. Tobera
+print("Tobera")
+print("\n")
+
+# Datos proporcionados
+Patm = 78 * 1000 #Presión Atmosferica en Pascales
+Pe = Patm #Presión de Salida que debe ser igual a la Atmosferica
+Pespace = 0 #Presión en el espacio exterior, siendo de 0 Pascales
+P0 = 2 * 1000000 #Presión dentro de la cámara de combustión en Pascales
+T0 = 1520 #Temperatura de flama en Kelvin
+k = 1.136 #Coeficiente adiabático
+R = 208.4 #Constante De Gas en J/kg*K
+EP = 300 #Empuje Promedio
+
+print("Parametros Resultado: ")
+
+# 1. Temperatura en la Garganta
+Tt = (2 * T0) / (k + 1)
+print(f"Temperatura en la garganta (Tt): {Tt} Kelvin")
+
+# 2. Velocidad de Salida de los Gases
+Ve = math.sqrt((2 * k / (k - 1)) * R * T0 * (1 - (Patm / P0) ** ((k - 1) / k)))
+
+print(f"Velocidad de Salida de los Gases (Ve): {Ve} m/s")
+
+# 3. Flujo Másico Promedio 
+mdot = EP / Ve
+print(f"Flujo Másico Promedio (mdot): {mdot} kg/s")
+
+# 4. Área y Diámetro de la garganta
+At = (mdot / ((P0 / math.sqrt(T0)) *  math.sqrt((k / R) * (((2) / (k + 1)) ** ((k + 1) / (k - 1))))))
+print(f"Área de la garganta (At): {At} m´2")
+Dt = math.sqrt((4 * At) / math.pi)
+print(f"Diámetro de la garganta (Dt): {Dt} m")
+
+# 5. Área y diámetro a la salida de la tobera
+Ae = (At) / ((((k + 1) / 2) ** (1 / (k - 1))) * ((Pe / P0) ** (1 / k)) * math.sqrt(((k + 1) / (k-1 )) * ( 1 - ((Pe / P0) ** ((k - 1) / k)))))
+print(f"Área a la salida de la tobera (Ae): {Ae} m´2")
+De = math.sqrt((4 * Ae) / math.pi)
+print(f"Diámetro a la salida de la tobera (De): {De} m")
+
+print("\n")
+print("Dimensiones en el Espacio Exterior: ")
+
+### Calculos: en el espacio
+
+# 6. Área y Diámetro de la garganta para el espacio exterior (es la misma)
+Atspace = (mdot / ((P0 / math.sqrt(T0)) *  math.sqrt((k / R) * (((2) / (k + 1)) ** ((k + 1) / (k - 1))))))
+print(f"Área de la garganta en el espacio exterior (Atspace): {Atspace} m´2")
+Dtspace = math.sqrt((4 * Atspace) / math.pi)
+print(f"Diámetro de la garganta en el espacio exterior (Dtspace): {Dtspace} m")
+
+# 7. Área y diámetro a la salida de la tobera para el espacio exterior 
+Aespace = Atspace
+print(f"Área a la salida en el espacio exterior (Aespace): {Atspace} m´2")
+Dtspace = math.sqrt((4 * Aespace) / math.pi)
+print(f"Diámetro a la salida en el espacio exterior (Despace): {Dtspace} m")
+
+# II. Grano De Propelente
+
+# Datos proporcionados
+Dprop = 1795  # Densidad del propelente en kg/m3
+Isp = 110 # Impulso específico en segundos
+Itotal = 600 # Impulso total en Newtons por segundo
+Kn = 193.575 # Klemmung Inicial
+PTRatio = 1.50 # Port-Throat Ratio inicial 
+g = 9.81 # Valor de la gravedad en m/s2
+Aport = 1.5 * At #Valor de Área del canal de flujo
+d = math.sqrt((4 * Aport) / math.pi)
+
+print("\n")
+print("Grano De Propelente")
+print(f"Diametro inicial elegido (d): {d} m")
+print("\n")
+print("Parametros Resultado: ")
+
+#1. Masa de propelente para que el motor tenga un impulso total de 600 [N*s]
+mp = Itotal / (g * Isp)
+print(f"Masa de propelente para impulso total de 600 [N*s] (mp): {mp} Kg")
+
+#2. Volumen del grano para tener esa cantidad de propelente
+Vg = mp / Dprop
+print(f"Volumen del grano (Vg): {Vg} m´3")
+
+#3. Área inicial de quemado según el Klemmung inicial y el área de la garganta antes obtenida
+Aburn = At * Kn
+print(f"Area inicial de quemado (Aburn): {Aburn} m´2")
+
+#4. Dimensiones del grano (L, D, d)
+L = 13.51 #El volumen calculado para el grano
+D = 0.0128501 #El área inicial de quemado calculada
+print(f"Longitud (L): {L} m")
+print(f"Diametro exterior (D): {D} m")
+print(f"Diametro interior (d): {d} m")
+
+#5. Área final de quemado
+Aburnfinal = ((math.pi) * ((D) ** 2)) / 4
+print(f"Área final de quemado (Aburnfinal): {Aburnfinal} m´2")
